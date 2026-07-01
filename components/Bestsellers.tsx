@@ -17,7 +17,8 @@ function Card({ p }: { p: ProductCardData }) {
         border: "1px solid rgba(33,28,23,.08)",
         borderRadius: 18,
         overflow: "hidden",
-        display: "block",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <div style={{ position: "relative" }}>
@@ -42,7 +43,7 @@ function Card({ p }: { p: ProductCardData }) {
           </div>
         )}
       </div>
-      <div style={{ padding: "13px 14px 15px" }}>
+      <div style={{ padding: "13px 14px 15px", display: "flex", flexDirection: "column", flex: 1 }}>
         <div style={{ fontFamily: BITTER, fontWeight: 700, fontSize: 15, color: "#211C17" }}>{p.title}</div>
         <div style={{ fontSize: 10.5, color: "#8C7E68", marginTop: 2 }}>
           {p.article ? `арт. ${p.article}` : ""}
@@ -57,7 +58,7 @@ function Card({ p }: { p: ProductCardData }) {
             {p.extraColors > 0 && <span style={{ fontSize: 10, color: "#8C7E68", alignSelf: "center" }}>+{p.extraColors}</span>}
           </div>
         )}
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginTop: 13 }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginTop: "auto", paddingTop: 13 }}>
           <div>
             <div style={{ fontSize: 10, color: "#8C7E68" }}>от</div>
             <div style={{ fontFamily: BITTER, fontWeight: 800, fontSize: 19, color: "#211C17" }}>
@@ -86,13 +87,15 @@ export default function Bestsellers({ products }: { products: ProductCardData[] 
         </div>
         <h2 className="t-h2" style={{ fontFamily: BITTER, fontWeight: 800, color: "#211C17", margin: 0 }}>Хиты и новинки</h2>
       </div>
-      <div
-        className="no-scrollbar gx"
-        style={{ display: "flex", gap: 13, overflowX: "auto", paddingTop: 4, paddingBottom: 14, scrollSnapType: "x mandatory" }}
-      >
-        {products.map((p) => (
-          <Card key={p.id} p={p} />
-        ))}
+      <div className="gx">
+        <div
+          className="no-scrollbar"
+          style={{ display: "flex", gap: 13, overflowX: "auto", paddingTop: 4, paddingBottom: 14, marginRight: -4, scrollSnapType: "x mandatory" }}
+        >
+          {products.map((p) => (
+            <Card key={p.id} p={p} />
+          ))}
+        </div>
       </div>
       <div className="gx">
         <Link

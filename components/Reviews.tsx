@@ -14,9 +14,10 @@ export default function Reviews({ reviews }: { reviews: ReviewData[] }) {
       <div className="gx" style={{ marginBottom: 14 }}>
         <h2 className="t-h2" style={{ fontFamily: BITTER, fontWeight: 800, color: "#211C17", margin: 0 }}>Отзывы клиентов</h2>
       </div>
+      <div className="gx">
       <div
-        className="no-scrollbar gx"
-        style={{ display: "flex", gap: 13, overflowX: "auto", paddingTop: 2, paddingBottom: 14, scrollSnapType: "x mandatory" }}
+        className="no-scrollbar"
+        style={{ display: "flex", gap: 13, overflowX: "auto", paddingTop: 2, paddingBottom: 14, marginRight: -4, scrollSnapType: "x mandatory" }}
       >
         {reviews.map((r) => {
           const chip = SOURCE_STYLE[r.source] ?? { bg: "#EEE7DA", color: "#6F6253" };
@@ -63,6 +64,7 @@ export default function Reviews({ reviews }: { reviews: ReviewData[] }) {
             </div>
           );
         })}
+      </div>
       </div>
     </section>
   );
