@@ -62,12 +62,12 @@ git push -u origin main
 | Name | Value |
 |---|---|
 | `DATABASE_URL` | вставьте значение `POSTGRES_URL_NON_POOLING` из шага 3 |
-| `ENCRYPTION_KEY` | `lmtJERjWp4YbQg0rXCwonyi/lY/wtjKfYf5MYyFiv+u6a87+uEPrqNkdsFyC+QvG` |
-| `JWT_SECRET` | `+ffzGxcCgrdz8HZfqWkXp4S80sCtMZW/QnoY4y+Db9fDyMSe+ucOAk4/kWy6u5BM` |
+| `ENCRYPTION_KEY` | свой ключ (см. ниже) — НЕ из репозитория |
+| `JWT_SECRET` | свой ключ (см. ниже) — НЕ из репозитория |
 | `NEXT_PUBLIC_SITE_URL` | адрес сайта, напр. `https://gips-style-31.vercel.app` |
 
-> `ENCRYPTION_KEY` и `JWT_SECRET` уже сгенерированы (можно оставить эти). Для максимальной
-> безопасности замените на свои: `openssl rand -base64 48` (или сгенерирую по запросу).
+> ⚠️ `ENCRYPTION_KEY` и `JWT_SECRET` задавайте **свежими** значениями (в истории git лежат старые
+> примеры — их использовать нельзя). Сгенерировать: `openssl rand -base64 48` (по одному на каждый).
 
 Нажмите **Save**.
 
