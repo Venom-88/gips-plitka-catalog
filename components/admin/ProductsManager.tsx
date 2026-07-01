@@ -4,13 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/admin/client";
 import { A, Area, Btn, Card, Empty, Field, Pill, Select, Toggle } from "./ui";
 import ImageField from "./ImageField";
+import GalleryField from "./GalleryField";
 
 type Category = { id: string; title: string; slug: string };
 type Product = {
   id: string; slug: string; title: string; article: string | null; status: string | null;
   priceFrom: number; unit: string; colors: string[]; extraColors: number; size: string | null;
   coverage: number | null; weight: string | null; material: string | null; description: string | null;
-  imageUrl: string | null; imagePos: string | null; inStock: boolean; isBestseller: boolean; sortOrder: number; categoryId: string | null;
+  imageUrl: string | null; imagePos: string | null; gallery: string[]; inStock: boolean; isBestseller: boolean; sortOrder: number; categoryId: string | null;
 };
 
 const empty = {
@@ -25,6 +26,7 @@ export default function ProductsManager() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<string | "new" | null>(null);
   const [form, setForm] = useState({ ...empty });
+  const [gallery, setGallery] = useState<string[]>([]);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -46,6 +48,7 @@ export default function ProductsManager() {
 
   function startNew() {
     setForm({ ...empty });
+    setGallery([]);
     setErr("");
     setEditing("new");
   }
@@ -58,6 +61,7 @@ export default function ProductsManager() {
       imageUrl: p.imageUrl ?? "", imagePos: p.imagePos ?? "50% 50%", inStock: p.inStock, isBestseller: p.isBestseller,
       sortOrder: String(p.sortOrder), categoryId: p.categoryId ?? "",
     });
+    setGallery(p.gallery ?? []);
     setErr("");
     setEditing(p.id);
   }
@@ -80,6 +84,7 @@ export default function ProductsManager() {
       description: form.description.trim() || null,
       imageUrl: form.imageUrl.trim() || null,
       imagePos: form.imagePos || null,
+      gallery,
       inStock: form.inStock,
       isBestseller: form.isBestseller,
       sortOrder: Number(form.sortOrder) || 0,
@@ -147,6 +152,7 @@ export default function ProductsManager() {
           </div>
           <Area label="Описание" value={form.description} onChange={set("description")} rows={5} />
           <ImageField label="Главное фото" value={form.imageUrl} onChange={set("imageUrl")} pos={form.imagePos} onPosChange={set("imagePos")} aspect={4 / 3} />
+          <GalleryField value={gallery} onChange={setGallery} />
           <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
             <Toggle label="В наличии" checked={form.inStock} onChange={(v) => setForm((f) => ({ ...f, inStock: v }))} />
             <Toggle label="Хит / на главную" checked={form.isBestseller} onChange={(v) => setForm((f) => ({ ...f, isBestseller: v }))} />

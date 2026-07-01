@@ -135,6 +135,17 @@ export function getFeaturedWorks() {
   return safe(() => prisma.work.findMany({ orderBy: { sortOrder: "asc" } }), []);
 }
 
+/** Карта slug -> {фото, фокус} категории — для блока «Популярные категории» на главной. */
+export async function getCategoryImageMap(): Promise<Record<string, { imageUrl: string | null; imagePos: string | null }>> {
+  const rows = await safe(
+    () => prisma.category.findMany({ select: { slug: true, imageUrl: true, imagePos: true } }),
+    [] as { slug: string; imageUrl: string | null; imagePos: string | null }[]
+  );
+  const map: Record<string, { imageUrl: string | null; imagePos: string | null }> = {};
+  for (const c of rows) map[c.slug] = { imageUrl: c.imageUrl, imagePos: c.imagePos };
+  return map;
+}
+
 export function getContactInfo() {
   return safe(() => prisma.contactInfo.findFirst(), null);
 }

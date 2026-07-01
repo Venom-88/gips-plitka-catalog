@@ -14,7 +14,9 @@ function SectionHead({ over, title }: { over: string; title: string }) {
   );
 }
 
-export default function Categories() {
+type CatImg = Record<string, { imageUrl: string | null; imagePos: string | null }>;
+
+export default function Categories({ catImg = {} }: { catImg?: CatImg }) {
   return (
     <section id="cat" className="gx" style={{ paddingTop: 30, paddingBottom: 8, background: "#F1E9DB", scrollMarginTop: 64 }}>
       <SectionHead over="Каталог" title="Популярные категории" />
@@ -22,7 +24,7 @@ export default function Categories() {
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {/* крупный баннер */}
         <a href="/catalog/decor-brick" className="lift" style={{ position: "relative", display: "block", borderRadius: 18, overflow: "hidden", height: 158 }}>
-          <ImageSlot src={null} height={158} placeholder="Декоративный кирпич" alt="Декоративный кирпич" />
+          <ImageSlot src={catImg["decor-brick"]?.imageUrl} objectPosition={catImg["decor-brick"]?.imagePos} height={158} placeholder="Декоративный кирпич" alt="Декоративный кирпич" />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg,rgba(33,28,23,.78) 0%,rgba(33,28,23,.25) 55%,transparent 100%)" }} />
           <div style={{ position: "absolute", left: 16, bottom: 14, right: 14 }}>
             <div style={{ fontFamily: BITTER, fontWeight: 700, fontSize: 19, color: "#FBF6EC" }}>Декоративный кирпич</div>
@@ -36,7 +38,7 @@ export default function Categories() {
         {/* ряд фото-категорий */}
         <div className="grid-2">
           <a href="/catalog/stone" className="lift" style={{ position: "relative", display: "block", borderRadius: 18, overflow: "hidden", height: 150 }}>
-            <ImageSlot src={null} height={150} placeholder="Камень / сланец" alt="Камень / сланец" />
+            <ImageSlot src={catImg["stone"]?.imageUrl} objectPosition={catImg["stone"]?.imagePos} height={150} placeholder="Камень / сланец" alt="Камень / сланец" />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 40%,rgba(33,28,23,.82))" }} />
             <div style={{ position: "absolute", left: 13, bottom: 12, right: 10 }}>
               <div style={{ fontFamily: BITTER, fontWeight: 700, fontSize: 15, color: "#FBF6EC" }}>Камень / сланец</div>
@@ -44,7 +46,7 @@ export default function Categories() {
             </div>
           </a>
           <a href="/catalog/mosaic-3d" className="lift" style={{ position: "relative", display: "block", borderRadius: 18, overflow: "hidden", height: 150 }}>
-            <ImageSlot src={null} height={150} placeholder="3D-мозаика (соты)" alt="3D-мозаика, соты" />
+            <ImageSlot src={catImg["mosaic-3d"]?.imageUrl} objectPosition={catImg["mosaic-3d"]?.imagePos} height={150} placeholder="3D-мозаика (соты)" alt="3D-мозаика, соты" />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 40%,rgba(33,28,23,.82))" }} />
             <div style={{ position: "absolute", left: 13, bottom: 12, right: 10 }}>
               <div style={{ fontFamily: BITTER, fontWeight: 700, fontSize: 15, color: "#FBF6EC" }}>3D-мозаика</div>
