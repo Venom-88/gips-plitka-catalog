@@ -98,7 +98,10 @@ export default function LeadForm({
 
         {/* Калькулятор (живой пересчёт) */}
         <div style={{ background: "rgba(217,154,43,.1)", border: "1px solid rgba(217,154,43,.3)", borderRadius: 16, padding: 14, marginBottom: 16 }}>
-          <div style={{ fontSize: 11, color: "#ECB23F", fontWeight: 600, marginBottom: 9 }}>Калькулятор плитки</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 9 }}>
+            <div style={{ fontSize: 11, color: "#ECB23F", fontWeight: 600 }}>Калькулятор плитки</div>
+            <a href="/calculator" style={{ fontSize: 11, color: "#ECB23F", fontWeight: 700, textDecoration: "underline" }}>Расширенный →</a>
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <label style={{ flex: 1, background: "#2E2720", borderRadius: 11, padding: "10px 13px", cursor: "text", display: "block" }}>
               <div style={{ fontSize: 10, color: "rgba(251,246,236,.5)" }}>Площадь стены</div>

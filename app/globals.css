@@ -323,3 +323,160 @@ button {
 html {
   scroll-behavior: smooth;
 }
+
+/* ===== Калькулятор ===== */
+.calc-grid {
+  display: grid;
+  gap: 18px;
+}
+@media (min-width: 900px) {
+  .calc-grid {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+    gap: 28px;
+  }
+  .calc-result {
+    position: sticky;
+    top: 84px;
+  }
+}
+.calc-card {
+  background: var(--cream);
+  border: 1px solid rgba(33, 28, 23, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+}
+.calc-in {
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(33, 28, 23, 0.14);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+}
+.calc-in:focus {
+  border-color: var(--amber);
+}
+.calc-seg {
+  display: flex;
+  background: #fff;
+  border: 1px solid rgba(33, 28, 23, 0.14);
+  border-radius: 12px;
+  padding: 3px;
+}
+.calc-seg button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.calc-seg button[data-active="true"] {
+  background: var(--ink);
+  color: #fbf6ec;
+}
+.calc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 100px;
+  outline: none;
+  cursor: pointer;
+}
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--amber);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.calc-range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+.calc-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--amber);
+  cursor: pointer;
+}
+.calc-bar {
+  display: flex;
+  height: 12px;
+  border-radius: 100px;
+  overflow: hidden;
+  background: rgba(33, 28, 23, 0.08);
+}
+.calc-bar > span {
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes calcIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.calc-anim {
+  animation: calcIn 0.22s ease both;
+}
+@keyframes totalPulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.total-pulse {
+  animation: totalPulse 0.4s ease;
+}
+/* карточки выбора товара */
+.calc-prod {
+  flex: none;
+  width: 132px;
+  scroll-snap-align: start;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.12s;
+}
+.calc-prod[data-active="true"] {
+  border-color: var(--amber);
+}
+.calc-prod:active {
+  transform: scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .calc-bar > span,
+  .calc-anim,
+  .total-pulse,
+  .calc-range::-webkit-slider-thumb {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -135,6 +135,24 @@ export function getFeaturedWorks() {
   return safe(() => prisma.work.findMany({ orderBy: { sortOrder: "asc" } }), []);
 }
 
+export type CalcProduct = {
+  id: string; slug: string; title: string; priceFrom: number;
+  coverage: number | null; imageUrl: string | null; imagePos: string | null; colors: string[];
+};
+
+/** Товары-плитка (ед. м²) для калькулятора: цена и расход на упаковку. */
+export function getCalculatorProducts(): Promise<CalcProduct[]> {
+  return safe(
+    () =>
+      prisma.product.findMany({
+        where: { unit: "м²" },
+        orderBy: [{ isBestseller: "desc" }, { sortOrder: "asc" }],
+        select: { id: true, slug: true, title: true, priceFrom: true, coverage: true, imageUrl: true, imagePos: true, colors: true },
+      }),
+    []
+  );
+}
+
 /** Карта slug -> {фото, фокус} категории — для блока «Популярные категории» на главной. */
 export async function getCategoryImageMap(): Promise<Record<string, { imageUrl: string | null; imagePos: string | null }>> {
   const rows = await safe(

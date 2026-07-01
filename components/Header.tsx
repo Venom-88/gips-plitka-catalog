@@ -4,6 +4,7 @@ import { formatPhoneDisplay, telHref } from "@/lib/types";
 
 const NAV = [
   { href: "/catalog", label: "Каталог" },
+  { href: "/calculator", label: "Калькулятор" },
   { href: "/gallery", label: "Наши работы" },
   { href: "/about", label: "О студии" },
   { href: "/contacts", label: "Контакты" },

@@ -6,6 +6,7 @@ import { BITTER, MaxMark, MAX_BG, Phone, VKMark, VK_BG } from "./icons";
 
 const NAV = [
   { href: "/catalog", label: "Каталог" },
+  { href: "/calculator", label: "Калькулятор" },
   { href: "/gallery", label: "Наши работы" },
   { href: "/about", label: "О студии" },
   { href: "/contacts", label: "Контакты" },
