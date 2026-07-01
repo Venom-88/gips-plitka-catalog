@@ -327,7 +327,13 @@ html {
 /* ===== Калькулятор ===== */
 .calc-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* колонка может сжиматься — не «распирается» лентой товаров */
   gap: 18px;
+}
+/* ленты внутри карточек не должны увеличивать ширину колонки */
+.calc-grid .no-scrollbar {
+  min-width: 0;
+  max-width: 100%;
 }
 @media (min-width: 900px) {
   .calc-grid {

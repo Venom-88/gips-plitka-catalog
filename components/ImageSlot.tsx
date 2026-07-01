@@ -1,11 +1,10 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 
 /**
  * Плейсхолдер под реальное фото из админки/CMS.
- * Если передан `src` — рендерит обычный <img> (lazy, с alt для SEO).
- * Если `src` нет — показывает аккуратную заглушку с подписью.
- *
- * В проде все фото (фактуры, интерьеры, работы, аватары) приходят из БД -> сюда в `src`.
+ * Фото из Vercel Blob рендерим через next/image (оптимизация: ресайз + WebP/AVIF, быстрая загрузка).
+ * Прочие URL / data-URI — обычный <img>. Без src — аккуратная заглушка.
  */
 export default function ImageSlot({
   src,
@@ -18,6 +17,7 @@ export default function ImageSlot({
   style,
   priority = false,
   objectPosition,
+  sizes = "(max-width: 900px) 100vw, 500px",
 }: {
   src?: string | null;
   alt?: string;
@@ -29,6 +29,7 @@ export default function ImageSlot({
   style?: CSSProperties;
   priority?: boolean;
   objectPosition?: string | null; // фокус кадра, напр. "50% 30%"
+  sizes?: string;
 }) {
   const circle = shape === "circle";
   const borderRadius = circle ? "50%" : radius ?? 0;
@@ -43,6 +44,21 @@ export default function ImageSlot({
   };
 
   if (src) {
+    const optimized = src.includes(".blob.vercel-storage.com");
+    if (optimized) {
+      return (
+        <span style={{ position: "relative", display: "block", width, height, borderRadius, overflow: "hidden", ...style }}>
+          <Image
+            src={src}
+            alt={alt ?? placeholder ?? ""}
+            fill
+            priority={priority}
+            sizes={sizes}
+            style={{ objectFit: "cover", objectPosition: objectPosition || "center" }}
+          />
+        </span>
+      );
+    }
     return (
       <img
         src={src}

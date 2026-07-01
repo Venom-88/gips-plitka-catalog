@@ -2,8 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Реальные фото из админки/CMS можно отдавать с внешнего хоста — домены добавляются здесь.
-    remotePatterns: [],
+    // Фото из Vercel Blob оптимизируются (ресайз + WebP/AVIF) через CDN.
+    remotePatterns: [
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "*.blob.vercel-storage.com" },
+    ],
+    formats: ["image/avif", "image/webp"],
   },
 };
 

@@ -9,6 +9,7 @@ export default function Hero({ imageUrl, imagePos }: { imageUrl?: string | null;
           src={imageUrl}
           height="100%"
           priority
+          sizes="100vw"
           placeholder="Фото интерьера с плиткой студии"
           alt="Интерьер с авторской гипсовой плиткой студии «Гипс Стиль 31»"
           style={{ height: "100%" }}
