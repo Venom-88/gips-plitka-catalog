@@ -238,18 +238,7 @@ export default function Calculator({ products }: { products: CalcProduct[] }) {
             <div style={{ fontSize: 11, color: "#8C7E68", marginTop: 6 }}>10% — стандарт; для диагонали/сложного узора берите больше.</div>
           </div>
 
-          <div style={{ fontSize: 13, color: "#6F6253", fontWeight: 600, marginBottom: 8 }}>Выберите товар</div>
-          <div className="no-scrollbar" style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4 }}>
-            {products.map((p) => (
-              <button key={p.id} className="calc-prod" data-active={p.id === productId} onClick={() => setProductId(p.id)}>
-                <ImageSlot src={p.imageUrl} objectPosition={p.imagePos} height={80} placeholder={p.title} alt={p.title} />
-                <div style={{ padding: "8px 9px 10px", textAlign: "left" }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#211C17", lineHeight: 1.2 }}>{p.title}</div>
-                  <div style={{ fontSize: 11, color: "#8C7E68", marginTop: 2 }}>от {p.priceFrom.toLocaleString("ru-RU")} ₽/м²</div>
-                </div>
-              </button>
-            ))}
-          </div>
+          <ProductPicker products={products} productId={productId} onSelect={setProductId} />
         </div>
 
         {/* Доборы и расходники */}
@@ -362,5 +351,126 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
       </span>
       <span style={{ fontSize: 13.5, color: "#211C17", fontWeight: 500 }}>{label}</span>
     </label>
+  );
+}
+
+const arrowBtn: React.CSSProperties = {
+  position: "absolute",
+  top: "50%",
+  transform: "translateY(-50%)",
+  zIndex: 3,
+  width: 36,
+  height: 36,
+  borderRadius: "50%",
+  border: "1px solid rgba(33,28,23,.12)",
+  background: "rgba(255,255,255,.95)",
+  boxShadow: "0 4px 12px -4px rgba(33,28,23,.35)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+};
+
+function ProductPicker({ products, productId, onSelect }: { products: CalcProduct[]; productId: string; onSelect: (id: string) => void }) {
+  const strip = useRef<HTMLDivElement>(null);
+  const input = useRef<HTMLInputElement>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const [canL, setCanL] = useState(false);
+  const [canR, setCanR] = useState(false);
+
+  const query = q.trim().toLowerCase();
+  const list = query ? products.filter((p) => p.title.toLowerCase().includes(query)) : products;
+
+  function updateArrows() {
+    const el = strip.current;
+    if (!el) return;
+    setCanL(el.scrollLeft > 4);
+    setCanR(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }
+  useEffect(() => {
+    updateArrows();
+    const el = strip.current;
+    if (!el) return;
+    const ro = new ResizeObserver(updateArrows);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [list.length]);
+
+  function nudge(dir: number) {
+    const el = strip.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.max(220, el.clientWidth * 0.8), behavior: "smooth" });
+  }
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+        <span style={{ fontSize: 13, color: "#6F6253", fontWeight: 600 }}>Выберите товар</span>
+        <button
+          type="button"
+          aria-label={searchOpen ? "Закрыть поиск" : "Поиск товара"}
+          onClick={() => {
+            setSearchOpen((v) => {
+              const next = !v;
+              if (!next) setQ("");
+              else setTimeout(() => input.current?.focus(), 30);
+              return next;
+            });
+          }}
+          className="press-92"
+          style={{ width: 32, height: 32, borderRadius: 9, border: "1px solid rgba(33,28,23,.14)", background: searchOpen ? "#211C17" : "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke={searchOpen ? "#D99A2B" : "#211C17"} strokeWidth="1.8" />
+            <path d="M20 20l-3.2-3.2" stroke={searchOpen ? "#D99A2B" : "#211C17"} strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      {searchOpen && (
+        <div className="calc-anim" style={{ position: "relative", marginBottom: 10 }}>
+          <input
+            ref={input}
+            className="calc-in"
+            placeholder="Название товара…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            style={{ paddingRight: 34 }}
+          />
+          {q && (
+            <button type="button" aria-label="Очистить" onClick={() => setQ("")} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 24, height: 24, borderRadius: 7, border: "none", background: "transparent", color: "#8C7E68", cursor: "pointer", fontSize: 15 }}>✕</button>
+          )}
+        </div>
+      )}
+
+      {list.length === 0 ? (
+        <div style={{ fontSize: 13, color: "#8C7E68", padding: "14px 0" }}>Ничего не найдено — измените запрос.</div>
+      ) : (
+        <div style={{ position: "relative" }}>
+          {canL && (
+            <button type="button" aria-label="Назад" onClick={() => nudge(-1)} style={{ ...arrowBtn, left: 2 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#211C17" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          )}
+          {canR && (
+            <button type="button" aria-label="Вперёд" onClick={() => nudge(1)} style={{ ...arrowBtn, right: 2 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#211C17" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          )}
+          <div ref={strip} className="no-scrollbar" onScroll={updateArrows} style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, scrollSnapType: "x mandatory" }}>
+            {list.map((p) => (
+              <button key={p.id} type="button" className="calc-prod" data-active={p.id === productId} onClick={() => onSelect(p.id)} style={{ scrollSnapAlign: "start" }}>
+                <ImageSlot src={p.imageUrl} objectPosition={p.imagePos} height={80} placeholder={p.title} alt={p.title} />
+                <div style={{ padding: "8px 9px 10px", textAlign: "left" }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "#211C17", lineHeight: 1.2 }}>{p.title}</div>
+                  <div style={{ fontSize: 11, color: "#8C7E68", marginTop: 2 }}>от {p.priceFrom.toLocaleString("ru-RU")} ₽/м²</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
