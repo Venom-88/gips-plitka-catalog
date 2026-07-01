@@ -1,0 +1,325 @@
+/* ===== Глобальные стили «Гипс Стиль 31» =====
+   Mobile-first + полноценный адаптив (планшет ≥768, десктоп ≥1024).
+   Инлайн-стили компонентов задают детали; адаптивная сетка/отступы — через классы ниже. */
+
+:root {
+  --ink: #211c17;
+  --ink-2: #2e2720;
+  --footer: #1a1612;
+  --paper: #f1e9db;
+  --cream: #fbf6ec;
+  --amber: #d99a2b;
+  --amber-bright: #ecb23f;
+  --amber-dark: #b97e1e;
+  --terracotta: #b5552f;
+  --muted: #6f6253;
+  --eco: #4a6b36;
+
+  /* максимальная ширина контента и «пол» бокового отступа */
+  --content: 1200px;
+  --gutter: 18px;
+}
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper);
+  font-family: var(--font-golos), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--ink);
+}
+
+/* Полноширинная страница (раньше была колонка 480px). */
+.app {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--paper);
+  overflow-x: clip;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+button {
+  font-family: inherit;
+}
+
+/* ===== Адаптивный контейнер ===== */
+/* .gx — горизонтальный отступ, который одновременно центрирует контент в пределах --content.
+   Ставится на секцию/блок; вертикальные отступы задаются инлайн (paddingTop/Bottom). */
+.gx {
+  padding-left: max(var(--gutter), calc((100% - var(--content)) / 2));
+  padding-right: max(var(--gutter), calc((100% - var(--content)) / 2));
+}
+/* .container — обычный центрированный блок (для вложенного контента). */
+.container {
+  width: 100%;
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ===== Видимость по брейкпоинтам ===== */
+.desktop-only {
+  display: none !important;
+}
+@media (min-width: 1024px) {
+  .desktop-only {
+    display: flex !important;
+  }
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* ===== Адаптивные сетки ===== */
+.grid-adv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+@media (min-width: 768px) {
+  .grid-adv {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+}
+
+.grid-products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 620px) {
+  .grid-products {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .grid-products {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .grid-2 {
+    gap: 16px;
+  }
+}
+/* пары «камень/3D» и тёмные плитки — 4 в ряд на десктопе */
+@media (min-width: 900px) {
+  .grid-2.cat-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.grid-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 14px;
+}
+@media (min-width: 768px) {
+  .grid-footer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== Адаптивная типографика (заголовки) ===== */
+.t-h1 {
+  font-size: 33px;
+  line-height: 1.08;
+}
+@media (min-width: 1024px) {
+  .t-h1 {
+    font-size: 52px;
+    line-height: 1.05;
+  }
+}
+.t-h2 {
+  font-size: 24px;
+  line-height: 1.12;
+}
+@media (min-width: 1024px) {
+  .t-h2 {
+    font-size: 34px;
+  }
+}
+
+/* ленты (хиты/отзывы) — на десктопе центрируем полосу по контейнеру */
+.strip {
+  display: flex;
+  gap: 13px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  min-height: 520px;
+}
+@media (min-width: 1024px) {
+  .hero {
+    min-height: 600px;
+  }
+}
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 600px) {
+  .hero-cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .hero-cta > a {
+    flex: 0 0 auto;
+  }
+}
+
+/* ===== О студии: 2 колонки на десктопе ===== */
+.about-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.about-media {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 230px;
+}
+@media (min-width: 900px) {
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 36px;
+    align-items: center;
+  }
+  .about-media {
+    height: 360px;
+  }
+}
+
+/* ===== Форма расчёта: 2 колонки (текст+калькулятор | форма) на десктопе ===== */
+@media (min-width: 900px) {
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+}
+
+/* ===== Страница товара: 2 колонки (галерея | покупка) ===== */
+.p-hero-img {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  height: 300px;
+}
+@media (min-width: 900px) {
+  .product-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .product-top .p-media {
+    position: sticky;
+    top: 90px;
+  }
+  .p-hero-img {
+    height: 440px;
+  }
+}
+
+/* Прячем скроллбары */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Водяной знак на фото работ (ТЗ) */
+.wm {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.wm span {
+  font-family: var(--font-bitter), serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.34);
+  transform: rotate(-22deg);
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+/* ===== Интерактивные состояния ===== */
+.press-98:active {
+  transform: scale(0.98);
+}
+.press-94:active {
+  transform: scale(0.94);
+}
+.press-92:active {
+  transform: scale(0.92);
+}
+.field:focus {
+  border-color: var(--amber) !important;
+}
+
+@media (hover: hover) {
+  .lift {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+  }
+  .dim:hover {
+    filter: brightness(1.06);
+  }
+  a.link-amber:hover {
+    color: var(--amber);
+  }
+  .nav-link:hover {
+    color: var(--amber-dark);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}

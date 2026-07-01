@@ -1,0 +1,195 @@
+// ===== Гипс Стиль 31 — схема БД (PostgreSQL) =====
+// Адаптирована из донора (MediaSunrise) под каталог гипсовой плитки.
+// Публичный каталог (Category, Product, Work, Review) НЕ шифруется — нужен для SSR/SEO.
+// Шифруются персональные данные заявок (Lead) и токены (SiteSettings) — 152-ФЗ.
+
+generator client {
+  provider = "prisma-client-js"
+  // native — для локальной разработки; rhel-openssl-3.0.x — рантайм Vercel (Amazon Linux, OpenSSL 3).
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Админ-пользователи (роли + гранулярные права) ----
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String // bcrypt
+  name        String
+  role        Role     @default(VIEWER)
+  permissions String[] @default([]) // products, categories, works, leads, reviews, settings, users
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+// ---- Категория каталога ----
+model Category {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  title       String // «Декоративный кирпич»
+  subtitle    String? // короткий подзаголовок под карточкой
+  description String? // развёрнутый SEO-текст категории
+  icon        String? // имя иконки/эмодзи для админки
+  imageUrl    String?
+  imagePos    String? // фокус кадра при обрезке, напр. "50% 30%"
+  priceFrom   Int? // «от ... ₽»
+  badge       String? // «Хит» и т.п.
+  protected   Boolean   @default(false) // нельзя удалить из админки
+  sortOrder   Int       @default(0)
+  seoTitle       String?
+  seoDescription String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([sortOrder])
+  @@map("categories")
+}
+
+// ---- Товар (плитка) ----
+model Product {
+  id           String    @id @default(uuid())
+  slug         String    @unique
+  title        String // «Кирпич «Лофт»»
+  article      String? // «LF-114»
+  description  String? // развёрнутое описание
+  status       String? // «Хит» | «Новинка» | «Под заказ»
+  priceFrom    Int // цена «от»
+  unit         String    @default("м²") // «м²» | «шт» | «кг»
+  colors       String[]  @default([]) // hex-цвета вариантов
+  extraColors  Int       @default(0) // «+N» сверх показанных
+  size         String? // «210×65×16 мм»
+  coverage     Float? // м² в упаковке
+  weight       String? // «~9 кг/м²»
+  material     String? // «Экологичный гипс»
+  imageUrl     String?
+  imagePos     String? // фокус кадра при обрезке, напр. "50% 30%"
+  gallery      String[]  @default([]) // доп. фото
+  inStock      Boolean   @default(true)
+  isBestseller Boolean   @default(false)
+  sortOrder    Int       @default(0)
+  htmlContent  String? // опциональный богатый блок (санитайзится)
+  seoTitle       String?
+  seoDescription String?
+  categoryId   String?
+  category     Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([categoryId])
+  @@index([isBestseller])
+  @@index([status])
+  @@index([sortOrder])
+  @@map("products")
+}
+
+// ---- Наши работы (портфолио / галерея) ----
+model Work {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  description String?
+  tag         String? // «Кухня», «Кафе» и т.п.
+  imageUrl    String?
+  imagePos    String? // фокус кадра при обрезке, напр. "50% 30%"
+  gallery     String[] @default([])
+  year        Int?
+  featured    Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([featured])
+  @@index([sortOrder])
+  @@map("works")
+}
+
+// ---- Отзывы ----
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  source    String // «VK» | «Авито»
+  rating    Int      @default(5)
+  text      String
+  avatarUrl String?
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+  @@map("reviews")
+}
+
+// ---- Заявка / заказ (персональные данные ШИФРУЮТСЯ) ----
+model Lead {
+  id          String     @id @default(uuid())
+  name        String // зашифровано
+  phone       String // зашифровано
+  email       String? // зашифровано
+  message     String? // зашифровано
+  area        Float? // площадь из калькулятора, м²
+  productSlug String? // если заявка из карточки товара
+  source      String     @default("form") // form | b2b | calc | product
+  status      LeadStatus @default(NEW)
+  consent     Boolean    @default(true) // согласие на обработку ПД
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+enum LeadStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+// ---- Контактная информация (публичная) ----
+model ContactInfo {
+  id           String   @id @default(uuid())
+  phone        String
+  email        String?
+  address      String
+  workingHours String   @default("Ежедневно 9:00–20:00")
+  telegram     String?
+  whatsapp     String?
+  vk           String?
+  instagram    String?
+  updatedAt    DateTime @updatedAt
+
+  @@map("contact_info")
+}
+
+// ---- Настройки сайта (токены ШИФРУЮТСЯ) ----
+model SiteSettings {
+  id               String   @id @default(uuid())
+  siteName         String   @default("Гипс Стиль 31")
+  siteDescription  String   @default("Авторская гипсовая плитка ручной работы · Губкин")
+  telegramBotToken String? // зашифровано
+  telegramChatId   String? // зашифровано
+  // Глобальные изображения сайта (+ фокус кадра)
+  heroImageUrl     String?
+  heroImagePos     String?
+  aboutImageUrl    String?
+  aboutImagePos    String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("site_settings")
+}

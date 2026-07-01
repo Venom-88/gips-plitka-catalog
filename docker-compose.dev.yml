@@ -1,0 +1,27 @@
+# Локальная PostgreSQL для разработки «Гипс Стиль 31».
+# Прод — Neon / Vercel Postgres (Docker там не нужен).
+# Запуск:  docker compose -f docker-compose.dev.yml up -d
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: gips_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gips_style
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+    ports:
+      # 5432 на хосте занят другим Postgres — используем 5544, чтобы БД проекта была изолирована.
+      - "5544:5432"
+    volumes:
+      - gips_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  gips_pg_data:
+    driver: local

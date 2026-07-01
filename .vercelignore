@@ -1,0 +1,8 @@
+# Не загружаем в деплой то, что не нужно рантайму
+donor
+design_handoff_glavnaya
+docker-compose.dev.yml
+.env
+.env.local
+node_modules
+.next

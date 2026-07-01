@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#DAD2C3;font-family:'Golos Text',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#211C17}
+  image-slot{display:block;background:#E7DECE;color:#8C7E68}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .wm{pointer-events:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .wm span{font-family:'Bitter',serif;font-weight:800;font-size:15px;letter-spacing:.18em;color:rgba(255,255,255,.34);transform:rotate(-22deg);text-transform:uppercase;text-shadow:0 1px 2px rgba(0,0,0,.25);white-space:nowrap}
+  ::-webkit-scrollbar{width:0}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:26px 0 60px">
+<div data-screen-label="Главная (моб.)" style="width:390px;position:relative;background:#F1E9DB;box-shadow:0 30px 70px -20px rgba(33,28,23,.45),0 0 0 1px rgba(33,28,23,.06);overflow:hidden;border-radius:30px">
+
+  <!-- ===== status bar (phone chrome) ===== -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 22px 7px;background:#211C17;color:#F1E9DB;font-size:13px;font-weight:600">
+    <span style="letter-spacing:.02em">9:41</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="1" fill="#F1E9DB"/><rect x="4.5" y="4.5" width="3" height="7.5" rx="1" fill="#F1E9DB"/><rect x="9" y="2" width="3" height="10" rx="1" fill="#F1E9DB"/><rect x="13.5" y="0" width="3" height="12" rx="1" fill="rgba(241,233,219,.4)"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 2.4c2.1 0 4 .8 5.5 2.1l1.3-1.5C13 1.2 10.6.3 8 .3S3 1.2 1.2 3l1.3 1.5C4 3.2 5.9 2.4 8 2.4Z" fill="#F1E9DB"/><path d="M8 6c1 0 1.9.4 2.6 1l1.3-1.5C10.8 4.5 9.5 4 8 4s-2.8.5-3.9 1.5L5.4 7C6.1 6.4 7 6 8 6Z" fill="#F1E9DB"/><circle cx="8" cy="9.6" r="1.6" fill="#F1E9DB"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="2.6" stroke="rgba(241,233,219,.5)" fill="none"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.4" fill="#F1E9DB"/><rect x="22.5" y="4" width="1.6" height="4" rx=".8" fill="rgba(241,233,219,.5)"/></svg>
+    </div>
+  </div>
+
+  <!-- ===== header (sticky) ===== -->
+  <header style="position:sticky;top:0;z-index:40;background:rgba(241,233,219,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(33,28,23,.10);padding:11px 18px;display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center">
+        <svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 1.5 21.2 6.8v10.4L12 22.5 2.8 17.2V6.8Z" fill="#211C17"/><path d="M12 4 18.9 8v8L12 20 5.1 16V8Z" fill="#D99A2B"/></svg>
+        <span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:13px;color:#211C17">31</span>
+      </div>
+      <div style="line-height:1">
+        <div style="font-family:'Bitter',serif;font-weight:800;font-size:15px;letter-spacing:.01em;color:#211C17">ГИПС СТИЛЬ <span style="color:#B97E1E">31</span></div>
+        <div style="font-size:10.5px;color:#6F6253;font-weight:500;margin-top:3px;letter-spacing:.04em">Гипсовая плитка · г. Губкин</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="#" style="width:38px;height:38px;border-radius:11px;background:#211C17;display:flex;align-items:center;justify-content:center" style-active="transform:scale(.94)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z" fill="#D99A2B"/></svg>
+      </a>
+      <button style="width:38px;height:38px;border:none;border-radius:11px;background:#FBF6EC;border:1px solid rgba(33,28,23,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer">
+        <span style="width:17px;height:2px;background:#211C17;border-radius:2px"></span>
+        <span style="width:17px;height:2px;background:#211C17;border-radius:2px"></span>
+        <span style="width:11px;height:2px;background:#D99A2B;border-radius:2px;align-self:flex-start;margin-left:7px"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section style="position:relative">
+    <image-slot id="gs31-hero" style="width:100%;height:520px" shape="rect" placeholder="Фото интерьера с плиткой студии"></image-slot>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,28,23,.30) 0%,rgba(33,28,23,.05) 38%,rgba(33,28,23,.62) 74%,rgba(33,28,23,.92) 100%)"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:0 22px 30px">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(217,154,43,.95);color:#211C17;font-weight:700;font-size:11px;letter-spacing:.06em;padding:6px 12px;border-radius:100px;text-transform:uppercase;margin-bottom:16px">
+        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="#211C17"/></svg> Ручная работа · малые партии
+      </div>
+      <h1 style="font-family:'Bitter',serif;font-weight:800;font-size:33px;line-height:1.08;color:#FBF6EC;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance">Авторская гипсовая плитка ручной&nbsp;работы</h1>
+      <p style="font-size:14px;line-height:1.5;color:rgba(251,246,236,.84);margin:0 0 20px;max-width:330px">Эксклюзивные фактуры, индивидуальный подбор цвета под ваш интерьер и экологичный гипс. Делаем под заказ — даже нестандартные размеры.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="#cat" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#D99A2B;color:#211C17;font-weight:700;font-size:15px;padding:15px;border-radius:14px;box-shadow:0 8px 20px -6px rgba(217,154,43,.7)" style-active="transform:scale(.98)">
+          Смотреть каталог
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="#211C17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#form" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(251,246,236,.12);border:1px solid rgba(251,246,236,.35);color:#FBF6EC;font-weight:600;font-size:15px;padding:15px;border-radius:14px;backdrop-filter:blur(4px)" style-active="transform:scale(.98)">Заказать консультацию</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ПРЕИМУЩЕСТВА ===== -->
+  <section style="padding:30px 18px 6px;background:#F1E9DB">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+      <div style="grid-column:1/-1;background:#211C17;border-radius:18px;padding:18px 18px 16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden">
+        <div style="position:absolute;right:-18px;top:-18px;opacity:.5"><svg width="92" height="92" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="none" stroke="#D99A2B" stroke-width="1"/></svg></div>
+        <div style="flex:none;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:#D99A2B;border-radius:13px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13c1-4 4-7 8-7M8 21l1.5-5M16 21l-1.5-5M9 16h6M7 13l-2 2M17 13l2 2" stroke="#211C17" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6c1.5 0 3 1 3 3s-1.5 4-3 4-3-2-3-4 1.5-3 3-3Z" stroke="#211C17" stroke-width="1.7"/></svg>
+        </div>
+        <div>
+          <div style="font-family:'Bitter',serif;font-weight:700;font-size:16px;color:#FBF6EC">Ручная формовка и окраска</div>
+          <div style="font-size:12px;color:rgba(251,246,236,.7);margin-top:2px;line-height:1.4">Каждая плитка проходит через руки мастера</div>
+        </div>
+      </div>
+
+      <div style="background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:16px;padding:15px">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#F1E2C6;border-radius:11px;margin-bottom:11px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="5" fill="#B5552F"/><circle cx="15" cy="11" r="5" fill="#D99A2B" opacity=".85"/><circle cx="11" cy="15" r="5" fill="#7A6A52" opacity=".75"/></svg>
+        </div>
+        <div style="font-family:'Bitter',serif;font-weight:700;font-size:14.5px;color:#211C17;line-height:1.15">Подбор цвета</div>
+        <div style="font-size:11.5px;color:#6F6253;margin-top:4px;line-height:1.4">Колер под ваш интерьер — бесплатно</div>
+      </div>
+
+      <div style="background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:16px;padding:15px">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#DCE7D0;border-radius:11px;margin-bottom:11px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3C7 8 7 16 12 21C17 16 17 8 12 3Z" stroke="#4A6B36" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 6v13" stroke="#4A6B36" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div style="font-family:'Bitter',serif;font-weight:700;font-size:14.5px;color:#211C17;line-height:1.15">Экологичный гипс</div>
+        <div style="font-size:11.5px;color:#6F6253;margin-top:4px;line-height:1.4">Лёгкий, дышащий, держит микроклимат</div>
+      </div>
+
+      <div style="background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:16px;padding:15px">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#E7DECE;border-radius:11px;margin-bottom:11px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 7h10v8H3z" stroke="#211C17" stroke-width="1.6"/><path d="M13 10h4l3 3v2h-7z" stroke="#211C17" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7" cy="17" r="1.8" stroke="#D99A2B" stroke-width="1.6"/><circle cx="16.5" cy="17" r="1.8" stroke="#D99A2B" stroke-width="1.6"/></svg>
+        </div>
+        <div style="font-family:'Bitter',serif;font-weight:700;font-size:14.5px;color:#211C17;line-height:1.15">Доставка по РФ</div>
+        <div style="font-size:11.5px;color:#6F6253;margin-top:4px;line-height:1.4">В любой город транспортной компанией</div>
+      </div>
+
+      <div style="background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:16px;padding:15px">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#E7DECE;border-radius:11px;margin-bottom:11px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#211C17" stroke-width="1.6"/><path d="M8 7h8" stroke="#211C17" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="12" r="1" fill="#D99A2B"/><circle cx="12" cy="12" r="1" fill="#D99A2B"/><circle cx="15" cy="12" r="1" fill="#D99A2B"/><circle cx="9" cy="16" r="1" fill="#211C17"/><circle cx="12" cy="16" r="1" fill="#211C17"/></svg>
+        </div>
+        <div style="font-family:'Bitter',serif;font-weight:700;font-size:14.5px;color:#211C17;line-height:1.15">Расчёт метража</div>
+        <div style="font-size:11.5px;color:#6F6253;margin-top:4px;line-height:1.4">Поможем посчитать и не переплатить</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== КАТЕГОРИИ ===== -->
+  <section id="cat" style="padding:30px 18px 8px;background:#F1E9DB">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#B97E1E;text-transform:uppercase;margin-bottom:5px">Каталог</div>
+        <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:24px;color:#211C17;margin:0;line-height:1.1">Популярные категории</h2>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <a href="#" style="position:relative;display:block;border-radius:18px;overflow:hidden;height:158px">
+        <image-slot id="gs31-cat-brick" style="width:100%;height:158px" shape="rect" placeholder="Декоративный кирпич"></image-slot>
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(33,28,23,.78) 0%,rgba(33,28,23,.25) 55%,transparent 100%)"></div>
+        <div style="position:absolute;left:16px;bottom:14px;right:14px">
+          <div style="font-family:'Bitter',serif;font-weight:700;font-size:19px;color:#FBF6EC">Декоративный кирпич</div>
+          <div style="font-size:12px;color:rgba(251,246,236,.78);margin-top:2px">Лофт, старый кирпич, античный · от 1 680 ₽/м²</div>
+        </div>
+        <div style="position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(217,154,43,.95);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="#211C17" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <a href="#" style="position:relative;display:block;border-radius:18px;overflow:hidden;height:150px">
+          <image-slot id="gs31-cat-stone" style="width:100%;height:150px" shape="rect" placeholder="Камень / сланец"></image-slot>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(33,28,23,.82))"></div>
+          <div style="position:absolute;left:13px;bottom:12px;right:10px"><div style="font-family:'Bitter',serif;font-weight:700;font-size:15px;color:#FBF6EC">Камень / сланец</div><div style="font-size:11px;color:rgba(251,246,236,.75);margin-top:1px">Рваный, слоистый</div></div>
+        </a>
+        <a href="#" style="position:relative;display:block;border-radius:18px;overflow:hidden;height:150px">
+          <image-slot id="gs31-cat-3d" style="width:100%;height:150px" shape="rect" placeholder="3D-мозаика (соты)"></image-slot>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(33,28,23,.82))"></div>
+          <div style="position:absolute;left:13px;bottom:12px;right:10px"><div style="font-family:'Bitter',serif;font-weight:700;font-size:15px;color:#FBF6EC">3D-мозаика</div><div style="font-size:11px;color:rgba(251,246,236,.75);margin-top:1px">Гексагон, соты</div></div>
+          <div style="position:absolute;top:11px;left:11px;background:#D99A2B;color:#211C17;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:4px 8px;border-radius:100px;text-transform:uppercase">Хит</div>
+        </a>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <a href="#" style="display:flex;align-items:center;gap:11px;background:#211C17;border-radius:16px;padding:14px 13px">
+          <div style="flex:none;width:38px;height:38px;border-radius:10px;background:rgba(217,154,43,.16);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 8h16M4 8l3-4h10l3 4M4 8v12h16V8" stroke="#D99A2B" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+          <div><div style="font-family:'Bitter',serif;font-weight:700;font-size:13.5px;color:#FBF6EC;line-height:1.1">Угловые элементы</div><div style="font-size:10.5px;color:rgba(251,246,236,.6);margin-top:2px">Доборные</div></div>
+        </a>
+        <a href="#" style="display:flex;align-items:center;gap:11px;background:#211C17;border-radius:16px;padding:14px 13px">
+          <div style="flex:none;width:38px;height:38px;border-radius:10px;background:rgba(217,154,43,.16);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l3 3v15H6z" stroke="#D99A2B" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 11h6M9 15h6" stroke="#D99A2B" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div><div style="font-family:'Bitter',serif;font-weight:700;font-size:13.5px;color:#FBF6EC;line-height:1.1">Расходники</div><div style="font-size:10.5px;color:rgba(251,246,236,.6);margin-top:2px">Клей, затирка, лак</div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ХИТЫ / НОВИНКИ ===== -->
+  <section style="padding:30px 0 8px;background:#F1E9DB">
+    <div style="padding:0 18px;margin-bottom:15px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#B97E1E;text-transform:uppercase;margin-bottom:5px">Выбор покупателей</div>
+      <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:24px;color:#211C17;margin:0;line-height:1.1">Хиты и новинки</h2>
+    </div>
+    <div style="display:flex;gap:13px;overflow-x:auto;padding:4px 18px 14px;scroll-snap-type:x mandatory">
+      <div style="flex:none;width:200px;scroll-snap-align:start;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:18px;overflow:hidden">
+        <div style="position:relative">
+          <image-slot id="gs31-prod-1" style="width:100%;height:150px" shape="rect" placeholder="Кирпич «Лофт»"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:#B5552F;color:#FBF6EC;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:4px 8px;border-radius:100px;text-transform:uppercase">Хит</div>
+        </div>
+        <div style="padding:13px 14px 15px">
+          <div style="font-family:'Bitter',serif;font-weight:700;font-size:15px;color:#211C17">Кирпич «Лофт»</div>
+          <div style="font-size:10.5px;color:#8C7E68;margin-top:2px">арт. LF-114 · 8 цветов</div>
+          <div style="display:flex;gap:5px;margin-top:9px">
+            <span style="width:16px;height:16px;border-radius:50%;background:#C9B79A;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#9C7B5B;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#6E5A48;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#3A332B;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="font-size:10px;color:#8C7E68;align-self:center">+4</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:13px">
+            <div><div style="font-size:10px;color:#8C7E68">от</div><div style="font-family:'Bitter',serif;font-weight:800;font-size:19px;color:#211C17">1 680 ₽<span style="font-size:11px;font-weight:500;color:#8C7E68">/м²</span></div></div>
+            <button style="width:40px;height:40px;border:none;border-radius:12px;background:#D99A2B;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:scale(.92)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#211C17" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:none;width:200px;scroll-snap-align:start;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:18px;overflow:hidden">
+        <div style="position:relative">
+          <image-slot id="gs31-prod-2" style="width:100%;height:150px" shape="rect" placeholder="Соты «Гексагон»"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:#4A6B36;color:#FBF6EC;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:4px 8px;border-radius:100px;text-transform:uppercase">Новинка</div>
+        </div>
+        <div style="padding:13px 14px 15px">
+          <div style="font-family:'Bitter',serif;font-weight:700;font-size:15px;color:#211C17">Соты «Гексагон»</div>
+          <div style="font-size:10.5px;color:#8C7E68;margin-top:2px">арт. HX-30 · 6 цветов</div>
+          <div style="display:flex;gap:5px;margin-top:9px">
+            <span style="width:16px;height:16px;border-radius:50%;background:#E8D9BE;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#D99A2B;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#7A6A52;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#211C17;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="font-size:10px;color:#8C7E68;align-self:center">+2</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:13px">
+            <div><div style="font-size:10px;color:#8C7E68">от</div><div style="font-family:'Bitter',serif;font-weight:800;font-size:19px;color:#211C17">2 140 ₽<span style="font-size:11px;font-weight:500;color:#8C7E68">/м²</span></div></div>
+            <button style="width:40px;height:40px;border:none;border-radius:12px;background:#D99A2B;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:scale(.92)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#211C17" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:none;width:200px;scroll-snap-align:start;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:18px;overflow:hidden">
+        <div style="position:relative">
+          <image-slot id="gs31-prod-3" style="width:100%;height:150px" shape="rect" placeholder="Сланец «Рваный»"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:#211C17;color:#FBF6EC;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:4px 8px;border-radius:100px;text-transform:uppercase">Под заказ</div>
+        </div>
+        <div style="padding:13px 14px 15px">
+          <div style="font-family:'Bitter',serif;font-weight:700;font-size:15px;color:#211C17">Сланец «Рваный»</div>
+          <div style="font-size:10.5px;color:#8C7E68;margin-top:2px">арт. SL-22 · 5 цветов</div>
+          <div style="display:flex;gap:5px;margin-top:9px">
+            <span style="width:16px;height:16px;border-radius:50%;background:#B9A98C;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#857058;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="width:16px;height:16px;border-radius:50%;background:#4F4034;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span>
+            <span style="font-size:10px;color:#8C7E68;align-self:center">+2</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:13px">
+            <div><div style="font-size:10px;color:#8C7E68">от</div><div style="font-family:'Bitter',serif;font-weight:800;font-size:19px;color:#211C17">1 940 ₽<span style="font-size:11px;font-weight:500;color:#8C7E68">/м²</span></div></div>
+            <button style="width:40px;height:40px;border:none;border-radius:12px;background:#D99A2B;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:scale(.92)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#211C17" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 18px"><a href="#" style="display:flex;align-items:center;justify-content:center;gap:7px;border:1.5px solid rgba(33,28,23,.18);color:#211C17;font-weight:600;font-size:14px;padding:13px;border-radius:13px">Весь каталог <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="#211C17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+  </section>
+
+  <!-- ===== НАШИ РАБОТЫ ===== -->
+  <section style="padding:32px 18px 8px;background:#211C17;margin-top:24px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#D99A2B;text-transform:uppercase;margin-bottom:5px">Портфолио</div>
+    <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:24px;color:#FBF6EC;margin:0 0 4px;line-height:1.1">Наши работы</h2>
+    <p style="font-size:12.5px;color:rgba(251,246,236,.6);margin:0 0 16px">Реальные интерьеры с плиткой студии</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+      <div style="position:relative;border-radius:14px;overflow:hidden;grid-row:span 2"><image-slot id="gs31-work-1" style="width:100%;height:235px" shape="rect" placeholder="Объект 1"></image-slot><div class="wm"><span>Гипс Стиль 31</span></div></div>
+      <div style="position:relative;border-radius:14px;overflow:hidden"><image-slot id="gs31-work-2" style="width:100%;height:113px" shape="rect" placeholder="Объект 2"></image-slot><div class="wm"><span style="font-size:11px">Гипс Стиль 31</span></div></div>
+      <div style="position:relative;border-radius:14px;overflow:hidden"><image-slot id="gs31-work-3" style="width:100%;height:113px" shape="rect" placeholder="Объект 3"></image-slot><div class="wm"><span style="font-size:11px">Гипс Стиль 31</span></div></div>
+      <div style="position:relative;border-radius:14px;overflow:hidden"><image-slot id="gs31-work-4" style="width:100%;height:113px" shape="rect" placeholder="Объект 4"></image-slot><div class="wm"><span style="font-size:11px">Гипс Стиль 31</span></div></div>
+      <div style="position:relative;border-radius:14px;overflow:hidden"><image-slot id="gs31-work-5" style="width:100%;height:113px" shape="rect" placeholder="Объект 5"></image-slot><div class="wm"><span style="font-size:11px">Гипс Стиль 31</span></div></div>
+      <div style="position:relative;border-radius:14px;overflow:hidden;grid-column:1/-1"><image-slot id="gs31-work-6" style="width:100%;height:120px" shape="rect" placeholder="Объект 6"></image-slot><div class="wm"><span>Гипс Стиль 31</span></div></div>
+    </div>
+    <a href="#" style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;border:1.5px solid rgba(251,246,236,.22);color:#FBF6EC;font-weight:600;font-size:14px;padding:13px;border-radius:13px">Открыть галерею работ</a>
+  </section>
+
+  <!-- ===== О СТУДИИ ===== -->
+  <section style="padding:32px 18px 12px;background:#F1E9DB">
+    <div style="position:relative;border-radius:20px;overflow:hidden;margin-bottom:18px"><image-slot id="gs31-master" style="width:100%;height:230px" shape="rect" placeholder="Фото мастера / мастерской"></image-slot>
+      <div style="position:absolute;left:14px;bottom:14px;background:rgba(241,233,219,.95);backdrop-filter:blur(4px);padding:8px 13px;border-radius:100px;font-size:11.5px;font-weight:600;color:#211C17;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#4A6B36"></span>Мастерская в Губкине</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#B97E1E;text-transform:uppercase;margin-bottom:6px">О студии</div>
+    <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:23px;color:#211C17;margin:0 0 11px;line-height:1.15">Небольшая студия, где каждую плитку держат в руках</h2>
+    <p style="font-size:13.5px;line-height:1.6;color:#5C5040;margin:0 0 14px">Мы не завод — и в этом наша сила. Заливаем малыми партиями, вручную тонируем и контролируем каждую плитку. Поэтому можем подобрать цвет точно под ваш интерьер и сделать нестандартный размер, который не найти в крупных магазинах.</p>
+    <div style="display:flex;gap:10px">
+      <div style="flex:1;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:14px;padding:13px 14px"><div style="font-family:'Bitter',serif;font-weight:800;font-size:22px;color:#B5552F">6 лет</div><div style="font-size:11px;color:#6F6253;margin-top:2px">ручного производства</div></div>
+      <div style="flex:1;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:14px;padding:13px 14px"><div style="font-family:'Bitter',serif;font-weight:800;font-size:22px;color:#B5552F">400+</div><div style="font-size:11px;color:#6F6253;margin-top:2px">интерьеров с плиткой</div></div>
+    </div>
+  </section>
+
+  <!-- ===== ПРОЦЕСС ===== -->
+  <section style="padding:28px 18px 12px;background:#F1E9DB">
+    <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:23px;color:#211C17;margin:0 0 18px;line-height:1.1">Как мы работаем</h2>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><div style="flex:none;width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="#D99A2B"/></svg><span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:15px;color:#211C17">1</span></div><div style="width:2px;flex:1;background:rgba(33,28,23,.12);margin:4px 0"></div></div><div style="padding-bottom:20px"><div style="font-family:'Bitter',serif;font-weight:700;font-size:16px;color:#211C17">Заявка</div><div style="font-size:12.5px;color:#6F6253;margin-top:3px;line-height:1.45">Звонок, мессенджер или форма на сайте</div></div></div>
+      <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><div style="flex:none;width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="#D99A2B"/></svg><span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:15px;color:#211C17">2</span></div><div style="width:2px;flex:1;background:rgba(33,28,23,.12);margin:4px 0"></div></div><div style="padding-bottom:20px"><div style="font-family:'Bitter',serif;font-weight:700;font-size:16px;color:#211C17">Подбор цвета и расчёт</div><div style="font-size:12.5px;color:#6F6253;margin-top:3px;line-height:1.45">Бесплатно подбираем колер и считаем метраж</div></div></div>
+      <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><div style="flex:none;width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="#D99A2B"/></svg><span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:15px;color:#211C17">3</span></div><div style="width:2px;flex:1;background:rgba(33,28,23,.12);margin:4px 0"></div></div><div style="padding-bottom:20px"><div style="font-family:'Bitter',serif;font-weight:700;font-size:16px;color:#211C17">Изготовление</div><div style="font-size:12.5px;color:#6F6253;margin-top:3px;line-height:1.45">Ручная формовка и окраска вашей партии</div></div></div>
+      <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><div style="flex:none;width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="#D99A2B"/></svg><span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:15px;color:#211C17">4</span></div><div style="width:2px;flex:1;background:rgba(33,28,23,.12);margin:4px 0"></div></div><div style="padding-bottom:20px"><div style="font-family:'Bitter',serif;font-weight:700;font-size:16px;color:#211C17">Доставка</div><div style="font-size:12.5px;color:#6F6253;margin-top:3px;line-height:1.45">Бережная упаковка и отправка по всей России</div></div></div>
+      <div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><div style="flex:none;width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center"><svg width="42" height="42" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="#211C17"/></svg><span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:15px;color:#D99A2B">5</span></div></div><div><div style="font-family:'Bitter',serif;font-weight:700;font-size:16px;color:#211C17">Монтаж</div><div style="font-size:12.5px;color:#6F6253;margin-top:3px;line-height:1.45">Подробные рекомендации по укладке и уходу</div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== ДИЗАЙНЕРАМ ===== -->
+  <section style="padding:8px 18px 22px;background:#F1E9DB">
+    <div style="position:relative;background:#2E2720;border-radius:22px;padding:24px 20px;overflow:hidden">
+      <div style="position:absolute;right:-26px;bottom:-26px;opacity:.5"><svg width="130" height="130" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="none" stroke="#D99A2B" stroke-width=".7"/><path d="M12 6 17 9v6l-5 3-5-3V9Z" fill="none" stroke="#D99A2B" stroke-width=".7"/></svg></div>
+      <div style="position:relative">
+        <div style="display:inline-block;background:rgba(217,154,43,.16);color:#ECB23F;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:5px 11px;border-radius:100px;text-transform:uppercase;margin-bottom:13px">B2B · партнёрам</div>
+        <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:23px;color:#FBF6EC;margin:0 0 9px;line-height:1.15">Дизайнерам и декораторам</h2>
+        <p style="font-size:13px;line-height:1.55;color:rgba(251,246,236,.72);margin:0 0 16px">Специальные цены, образцы фактур, индивидуальный подбор колера под проект и приоритетные сроки. Работаем с дизайнерами интерьера и отделочными бригадами.</p>
+        <a href="#form" style="display:inline-flex;align-items:center;gap:8px;background:#D99A2B;color:#211C17;font-weight:700;font-size:14px;padding:13px 20px;border-radius:13px">Стать партнёром <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="#211C17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ОТЗЫВЫ ===== -->
+  <section style="padding:14px 0 8px;background:#F1E9DB">
+    <div style="padding:0 18px;margin-bottom:14px"><h2 style="font-family:'Bitter',serif;font-weight:800;font-size:23px;color:#211C17;margin:0;line-height:1.1">Отзывы клиентов</h2></div>
+    <div style="display:flex;gap:13px;overflow-x:auto;padding:2px 18px 14px;scroll-snap-type:x mandatory">
+      <div style="flex:none;width:262px;scroll-snap-align:start;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:18px;padding:16px">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+          <image-slot id="gs31-rev-1" style="width:44px;height:44px" shape="circle" placeholder="Фото"></image-slot>
+          <div><div style="font-weight:700;font-size:13.5px;color:#211C17">Анна К.</div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span style="display:inline-flex;align-items:center;gap:3px;background:#E8EEF6;color:#2B5C9E;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:100px">VK</span><span style="color:#D99A2B;font-size:12px;letter-spacing:1px">★★★★★</span></div></div>
+        </div>
+        <p style="font-size:12.5px;line-height:1.55;color:#5C5040;margin:0">Подобрали цвет точно под нашу кухню в стиле лофт. Плитка лёгкая, клеится отлично, а главное — живая фактура, не как штамповка. Очень довольны!</p>
+      </div>
+      <div style="flex:none;width:262px;scroll-snap-align:start;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:18px;padding:16px">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+          <image-slot id="gs31-rev-2" style="width:44px;height:44px" shape="circle" placeholder="Фото"></image-slot>
+          <div><div style="font-weight:700;font-size:13.5px;color:#211C17">Дмитрий, кафе «Цех»</div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span style="display:inline-flex;align-items:center;gap:3px;background:#EAF3E6;color:#4A6B36;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:100px">Авито</span><span style="color:#D99A2B;font-size:12px;letter-spacing:1px">★★★★★</span></div></div>
+        </div>
+        <p style="font-size:12.5px;line-height:1.55;color:#5C5040;margin:0">Делали соты на всю стену в баре. Помогли с расчётом, добили нестандартный размер под нишу. Гости постоянно спрашивают, где брали.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ГАРАНТИИ ===== -->
+  <section style="padding:18px 18px 26px;background:#F1E9DB">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="display:flex;align-items:center;gap:11px;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:14px;padding:13px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8h11v8H4z" stroke="#B5552F" stroke-width="1.6"/><path d="M15 10h4l2 3v3h-6z" stroke="#B5552F" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8" cy="17" r="1.8" stroke="#211C17" stroke-width="1.6"/><circle cx="17" cy="17" r="1.8" stroke="#211C17" stroke-width="1.6"/></svg><div style="font-size:11.5px;font-weight:600;color:#211C17;line-height:1.3">Доставка по&nbsp;всей РФ</div></div>
+      <div style="display:flex;align-items:center;gap:11px;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:14px;padding:13px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 1 4 7.5" stroke="#B5552F" stroke-width="1.6" stroke-linecap="round"/><path d="M3 20v-5h5" stroke="#B5552F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="font-size:11.5px;font-weight:600;color:#211C17;line-height:1.3">Возврат и&nbsp;замена</div></div>
+      <div style="display:flex;align-items:center;gap:11px;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:14px;padding:13px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" stroke="#B5552F" stroke-width="1.6" stroke-linejoin="round"/></svg><div style="font-size:11.5px;font-weight:600;color:#211C17;line-height:1.3">Всегда на&nbsp;связи</div></div>
+      <div style="display:flex;align-items:center;gap:11px;background:#FBF6EC;border:1px solid rgba(33,28,23,.08);border-radius:14px;padding:13px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#B5552F" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#B5552F" stroke-width="1.6"/></svg><div style="font-size:11.5px;font-weight:600;color:#211C17;line-height:1.3">Безопасная&nbsp;оплата</div></div>
+    </div>
+  </section>
+
+  <!-- ===== ФОРМА / КАЛЬКУЛЯТОР ===== -->
+  <section id="form" style="padding:32px 18px 36px;background:#211C17;position:relative;overflow:hidden">
+    <div style="position:absolute;left:-30px;top:-30px;opacity:.4"><svg width="120" height="120" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7Z" fill="none" stroke="#D99A2B" stroke-width=".7"/></svg></div>
+    <div style="position:relative">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#D99A2B;text-transform:uppercase;margin-bottom:6px">Бесплатно</div>
+      <h2 style="font-family:'Bitter',serif;font-weight:800;font-size:25px;color:#FBF6EC;margin:0 0 6px;line-height:1.12">Рассчитать стоимость</h2>
+      <p style="font-size:13px;color:rgba(251,246,236,.62);margin:0 0 18px;line-height:1.5">Оставьте контакты — подберём цвет, посчитаем метраж и пришлём смету</p>
+
+      <div style="background:rgba(217,154,43,.1);border:1px solid rgba(217,154,43,.3);border-radius:16px;padding:14px;margin-bottom:16px">
+        <div style="font-size:11px;color:#ECB23F;font-weight:600;margin-bottom:9px">Калькулятор плитки</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="flex:1;background:#2E2720;border-radius:11px;padding:10px 13px"><div style="font-size:10px;color:rgba(251,246,236,.5)">Площадь стены</div><div style="font-family:'Bitter',serif;font-weight:700;font-size:18px;color:#FBF6EC">12 м²</div></div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="#D99A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div style="flex:1;background:#2E2720;border-radius:11px;padding:10px 13px"><div style="font-size:10px;color:rgba(251,246,236,.5)">≈ 11 упаковок</div><div style="font-family:'Bitter',serif;font-weight:700;font-size:18px;color:#D99A2B">от 18 480 ₽</div></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <input placeholder="Ваше имя" style="background:#2E2720;border:1px solid rgba(251,246,236,.12);border-radius:12px;padding:14px 15px;color:#FBF6EC;font-size:14px;font-family:inherit;outline:none" style-focus="border-color:#D99A2B"/>
+        <input placeholder="Телефон" style="background:#2E2720;border:1px solid rgba(251,246,236,.12);border-radius:12px;padding:14px 15px;color:#FBF6EC;font-size:14px;font-family:inherit;outline:none" style-focus="border-color:#D99A2B"/>
+        <textarea placeholder="Площадь, желаемая фактура, комментарий" rows="2" style="background:#2E2720;border:1px solid rgba(251,246,236,.12);border-radius:12px;padding:14px 15px;color:#FBF6EC;font-size:14px;font-family:inherit;outline:none;resize:none" style-focus="border-color:#D99A2B"></textarea>
+        <button style="background:#D99A2B;color:#211C17;border:none;font-weight:700;font-size:15px;padding:16px;border-radius:13px;cursor:pointer;box-shadow:0 8px 22px -6px rgba(217,154,43,.6)" style-active="transform:scale(.98)">Получить расчёт</button>
+        <label style="display:flex;align-items:flex-start;gap:9px;margin-top:3px"><span style="flex:none;width:17px;height:17px;border:1.5px solid rgba(251,246,236,.3);border-radius:5px;margin-top:1px"></span><span style="font-size:10.5px;color:rgba(251,246,236,.5);line-height:1.45">Нажимая кнопку, я соглашаюсь на обработку персональных данных и с политикой конфиденциальности</span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="background:#1A1612;padding:28px 18px 22px;color:rgba(251,246,236,.7)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24"><path d="M12 1.5 21.2 6.8v10.4L12 22.5 2.8 17.2V6.8Z" fill="#D99A2B"/></svg><span style="position:absolute;font-family:'Bitter',serif;font-weight:800;font-size:12px;color:#211C17">31</span></div>
+      <div><div style="font-family:'Bitter',serif;font-weight:800;font-size:14px;color:#FBF6EC">ГИПС СТИЛЬ 31</div><div style="font-size:10.5px;color:rgba(251,246,236,.5);margin-top:2px">Гипсовая плитка ручной работы</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;margin-bottom:18px;font-size:12px">
+      <a href="#" style="color:rgba(251,246,236,.7)">Декоративный кирпич</a>
+      <a href="#" style="color:rgba(251,246,236,.7)">Камень / сланец</a>
+      <a href="#" style="color:rgba(251,246,236,.7)">3D-мозаика, соты</a>
+      <a href="#" style="color:rgba(251,246,236,.7)">Угловые элементы</a>
+      <a href="#" style="color:rgba(251,246,236,.7)">Расходники</a>
+      <a href="#" style="color:rgba(251,246,236,.7)">Дизайнерам</a>
+    </div>
+
+    <div style="border-top:1px solid rgba(251,246,236,.1);padding-top:16px;margin-bottom:16px">
+      <a href="tel:+7" style="display:block;font-family:'Bitter',serif;font-weight:700;font-size:20px;color:#FBF6EC;margin-bottom:4px">+7 (XXX) XXX-XX-XX</a>
+      <div style="font-size:12px;color:rgba(251,246,236,.55);margin-bottom:12px">г. Губкин · ежедневно 9:00–20:00</div>
+      <div style="display:flex;gap:9px">
+        <a href="#" style="width:40px;height:40px;border-radius:11px;background:#25D366;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 21l1.6-4.8A8 8 0 1 1 12 20a8 8 0 0 1-3.8-1L3 21Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.5 8.5c0 4 3 7 7 7l1-2-2.5-1-.8.9c-1.2-.4-2.3-1.5-2.7-2.7l.9-.8L10.5 7.5l-2 1Z" fill="#fff"/></svg></a>
+        <a href="#" style="width:40px;height:40px;border-radius:11px;background:#2AABEE;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 4 3 11l5 2 2 6 3-4 5 4 3-15Z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M8 13l9-6-6 7" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#" style="width:40px;height:40px;border-radius:11px;background:#0077FF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;font-family:'Golos Text',sans-serif">VK</a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:7px;margin-bottom:16px">
+      <span style="background:rgba(251,246,236,.1);border-radius:6px;padding:5px 9px;font-size:10px;font-weight:700;color:rgba(251,246,236,.7)">МИР</span>
+      <span style="background:rgba(251,246,236,.1);border-radius:6px;padding:5px 9px;font-size:10px;font-weight:700;color:rgba(251,246,236,.7)">СБП</span>
+      <span style="background:rgba(251,246,236,.1);border-radius:6px;padding:5px 9px;font-size:10px;font-weight:700;color:rgba(251,246,236,.7)">VISA</span>
+      <span style="background:rgba(251,246,236,.1);border-radius:6px;padding:5px 9px;font-size:10px;font-weight:700;color:rgba(251,246,236,.7)">Mastercard</span>
+    </div>
+
+    <div style="font-size:10px;color:rgba(251,246,236,.4);line-height:1.6;border-top:1px solid rgba(251,246,236,.1);padding-top:14px">
+      ИП / Самозанятый · ИНН 0000000000<br>
+      <a href="#" style="color:rgba(251,246,236,.5)">Политика конфиденциальности</a> · <a href="#" style="color:rgba(251,246,236,.5)">Согласие на обработку ПД</a> · <a href="#" style="color:rgba(251,246,236,.5)">Оферта</a><br>
+      © 2026 Гипс Стиль 31. Все права защищены.
+    </div>
+  </footer>
+
+  <div style="height:74px;background:#1A1612"></div>
+
+  <!-- ===== STICKY BOTTOM BAR ===== -->
+  <div style="position:absolute;left:0;right:0;bottom:0;z-index:50;background:rgba(241,233,219,.96);backdrop-filter:blur(12px);border-top:1px solid rgba(33,28,23,.12);padding:9px 14px 12px;display:flex;gap:8px;align-items:center">
+    <a href="tel:+7" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#211C17;color:#FBF6EC;font-weight:700;font-size:14px;padding:13px;border-radius:13px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z" fill="#D99A2B"/></svg>Позвонить</a>
+    <a href="#" style="flex:none;width:48px;height:48px;border-radius:13px;background:#25D366;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21l1.6-4.8A8 8 0 1 1 12 20a8 8 0 0 1-3.8-1L3 21Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.5 8.5c0 4 3 7 7 7l1-2-2.5-1-.8.9c-1.2-.4-2.3-1.5-2.7-2.7l.9-.8L10.5 7.5l-2 1Z" fill="#fff"/></svg></a>
+    <a href="#" style="flex:none;width:48px;height:48px;border-radius:13px;background:#2AABEE;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 4 3 11l5 2 2 6 3-4 5 4 3-15Z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M8 13l9-6-6 7" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+
+</div>
+</div>
+</x-dc>
+</body>
+</html>
