@@ -1,28 +1,38 @@
-import { put } from "@vercel/blob";
-import { ok, fail, requireSession } from "@/lib/server/api";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
+import { getSession, hasRole } from "@/lib/server/auth";
 
 export const runtime = "nodejs";
 
-// Загрузка фото в Vercel Blob. Требует BLOB_READ_WRITE_TOKEN (в Vercel добавляется автоматически
-// при подключении Blob-хранилища). Локально без токена — вернём понятную ошибку, можно вставлять URL вручную.
-export async function POST(req: Request) {
-  const guard = await requireSession("EDITOR");
-  if (guard instanceof NextResponse) return guard;
-
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return fail(
-      "Загрузка фото не настроена: добавьте хранилище Vercel Blob (переменная BLOB_READ_WRITE_TOKEN). Пока можно вставить URL картинки вручную.",
-      501
+// Клиентская загрузка в Vercel Blob: файл идёт напрямую браузер -> Blob,
+// минуя serverless-функцию (у которой лимит тела ~4.5 МБ). Функция лишь выдаёт
+// одноразовый токен и проверяет авторизацию.
+export async function POST(request: Request): Promise<NextResponse> {
+  const body = (await request.json()) as HandleUploadBody;
+  try {
+    const json = await handleUpload({
+      body,
+      request,
+      onBeforeGenerateToken: async () => {
+        const session = await getSession();
+        if (!session || !hasRole(session, "EDITOR")) {
+          throw new Error("Требуется авторизация");
+        }
+        return {
+          allowedContentTypes: ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"],
+          addRandomSuffix: true,
+          maximumSizeInBytes: 15 * 1024 * 1024, // до 15 МБ
+        };
+      },
+      onUploadCompleted: async () => {
+        // ничего не сохраняем на сервере: клиент получает url и кладёт его в объект
+      },
+    });
+    return NextResponse.json(json);
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Ошибка загрузки" },
+      { status: 400 }
     );
   }
-
-  const form = await req.formData();
-  const file = form.get("file");
-  if (!(file instanceof File)) return fail("Файл не передан", 400);
-  if (file.size > 8 * 1024 * 1024) return fail("Файл больше 8 МБ", 400);
-
-  const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-  const blob = await put(`gips/${Date.now()}-${safe}`, file, { access: "public" });
-  return ok({ url: blob.url });
 }
