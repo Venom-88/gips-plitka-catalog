@@ -6,7 +6,7 @@ import { A, Area, Btn, Card, Field } from "./ui";
 
 export default function SettingsManager() {
   const [site, setSite] = useState({ siteName: "", siteDescription: "", telegramBotToken: "", telegramChatId: "", telegramConfigured: false });
-  const [contact, setContact] = useState({ phone: "", email: "", address: "", workingHours: "", telegram: "", whatsapp: "", vk: "", instagram: "" });
+  const [contact, setContact] = useState({ phone: "", email: "", address: "", workingHours: "", vk: "", max: "" });
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
 
@@ -18,7 +18,7 @@ export default function SettingsManager() {
         const c = await api.get<{ data: any }>("/api/contact-info");
         if (c.data) setContact({
           phone: c.data.phone ?? "", email: c.data.email ?? "", address: c.data.address ?? "", workingHours: c.data.workingHours ?? "",
-          telegram: c.data.telegram ?? "", whatsapp: c.data.whatsapp ?? "", vk: c.data.vk ?? "", instagram: c.data.instagram ?? "",
+          vk: c.data.vk ?? "", max: c.data.max ?? "",
         });
       } catch (e) { setErr(e instanceof Error ? e.message : "Ошибка загрузки"); }
     })();
@@ -70,12 +70,8 @@ export default function SettingsManager() {
         <Field label="Режим работы" value={contact.workingHours} onChange={cset("workingHours")} placeholder="Ежедневно 9:00–20:00" />
         <Field label="Email" value={contact.email} onChange={cset("email")} />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <Field label="WhatsApp" value={contact.whatsapp} onChange={cset("whatsapp")} placeholder="+79000000000" />
-          <Field label="Telegram" value={contact.telegram} onChange={cset("telegram")} placeholder="username" />
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <Field label="VK" value={contact.vk} onChange={cset("vk")} />
-          <Field label="Instagram" value={contact.instagram} onChange={cset("instagram")} />
+          <Field label="VK" value={contact.vk} onChange={cset("vk")} placeholder="имя_группы или ссылка" hint="напр. gips31 или https://vk.com/gips31" />
+          <Field label="MAX (ссылка)" value={contact.max} onChange={cset("max")} placeholder="https://max.ru/..." hint="ссылка на профиль/канал MAX" />
         </div>
         <Btn onClick={saveContact}>Сохранить контакты</Btn>
       </Card>

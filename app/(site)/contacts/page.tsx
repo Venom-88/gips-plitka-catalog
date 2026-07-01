@@ -3,6 +3,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
 import { BITTER, MaxMark, MAX_BG, Phone, VKMark, VK_BG } from "@/components/icons";
 import { getContactInfo } from "@/lib/catalog";
+import { telHref, vkHref, maxHref } from "@/lib/types";
 
 export const revalidate = 60;
 
@@ -27,7 +28,8 @@ export default async function ContactsPage() {
   const phone = info?.phone ?? "+7 (900) 000-00-00";
   const address = info?.address ?? "г. Губкин, Белгородская обл.";
   const hours = info?.workingHours ?? "Ежедневно 9:00–20:00";
-  const vk = info?.vk?.replace(/^@/, "");
+  const vk = vkHref(info?.vk);
+  const max = maxHref(info?.max);
 
   return (
     <>
@@ -49,17 +51,19 @@ export default async function ContactsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 9 }}>
-          <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="press-98" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#211C17", color: "#FBF6EC", fontWeight: 700, fontSize: 14, padding: 14, borderRadius: 13 }}>
+          <a href={telHref(phone)} className="press-98" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#211C17", color: "#FBF6EC", fontWeight: 700, fontSize: 14, padding: 14, borderRadius: 13 }}>
             <Phone size={17} fill="#D99A2B" /> Позвонить
           </a>
           {vk && (
-            <a href={`https://vk.com/${vk}`} aria-label="ВКонтакте" className="press-94" style={{ flex: "none", width: 50, height: 50, borderRadius: 13, background: VK_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <a href={vk} target="_blank" rel="noopener" aria-label="ВКонтакте" className="press-94" style={{ flex: "none", width: 50, height: 50, borderRadius: 13, background: VK_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <VKMark size={22} />
             </a>
           )}
-          <a href="#" aria-label="MAX" className="press-94" style={{ flex: "none", width: 50, height: 50, borderRadius: 13, background: MAX_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <MaxMark size={22} />
-          </a>
+          {max && (
+            <a href={max} target="_blank" rel="noopener" aria-label="MAX" className="press-94" style={{ flex: "none", width: 50, height: 50, borderRadius: 13, background: MAX_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <MaxMark size={22} />
+            </a>
+          )}
         </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BITTER, LogoHex, Phone, ArrowRight } from "./icons";
+import { formatPhoneDisplay, telHref } from "@/lib/types";
 
 const NAV = [
   { href: "/catalog", label: "Каталог" },
@@ -24,7 +25,7 @@ function Logo() {
   );
 }
 
-export default function Header() {
+export default function Header({ phone }: { phone?: string | null }) {
   return (
     <header
       className="gx"
@@ -42,7 +43,7 @@ export default function Header() {
       <div className="mobile-only" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 0" }}>
         <Logo />
         <a
-          href="tel:+7"
+          href={telHref(phone)}
           className="press-94 lift"
           aria-label="Позвонить"
           style={{ width: 40, height: 40, borderRadius: 11, background: "#211C17", display: "flex", alignItems: "center", justifyContent: "center" }}
@@ -62,11 +63,11 @@ export default function Header() {
           ))}
         </nav>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <a href="tel:+7" style={{ display: "flex", alignItems: "center", gap: 8, color: "#211C17", fontWeight: 700, fontSize: 15 }}>
+          <a href={telHref(phone)} style={{ display: "flex", alignItems: "center", gap: 8, color: "#211C17", fontWeight: 700, fontSize: 15 }}>
             <span style={{ width: 34, height: 34, borderRadius: 10, background: "#211C17", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Phone size={16} fill="#D99A2B" />
             </span>
-            +7 (XXX) XXX-XX-XX
+            {formatPhoneDisplay(phone) || "+7 (XXX) XXX-XX-XX"}
           </a>
           <Link
             href="/contacts"

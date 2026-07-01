@@ -26,10 +26,8 @@ export async function PUT(req: Request) {
     email: d.email || null,
     address: d.address,
     workingHours: d.workingHours || "Ежедневно 9:00–20:00",
-    telegram: d.telegram || null,
-    whatsapp: d.whatsapp || null,
     vk: d.vk || null,
-    instagram: d.instagram || null,
+    max: d.max || null,
   };
 
   if (existing) await prisma.contactInfo.update({ where: { id: existing.id }, data });

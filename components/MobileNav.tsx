@@ -11,8 +11,9 @@ const NAV = [
   { href: "/contacts", label: "Контакты" },
 ];
 
-export default function MobileNav() {
+export default function MobileNav({ phone, vk, max }: { phone?: string | null; vk?: string | null; max?: string | null }) {
   const [open, setOpen] = useState(false);
+  const tel = `tel:${(phone || "").replace(/[^\d+]/g, "") || "+7"}`;
 
   return (
     <>
@@ -91,19 +92,23 @@ export default function MobileNav() {
         }}
       >
         <a
-          href="tel:+7"
+          href={tel}
           className="press-98"
           style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#211C17", color: "#FBF6EC", fontWeight: 700, fontSize: 14, height: 48, borderRadius: 13 }}
         >
           <Phone size={17} fill="#D99A2B" />
           Позвонить
         </a>
-        <a href="#" aria-label="ВКонтакте" className="press-94" style={{ flex: "none", width: 48, height: 48, borderRadius: 13, background: VK_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <VKMark size={22} />
-        </a>
-        <a href="#" aria-label="MAX" className="press-94" style={{ flex: "none", width: 48, height: 48, borderRadius: 13, background: MAX_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <MaxMark size={22} />
-        </a>
+        {vk && (
+          <a href={vk} target="_blank" rel="noopener" aria-label="ВКонтакте" className="press-94" style={{ flex: "none", width: 48, height: 48, borderRadius: 13, background: VK_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <VKMark size={22} />
+          </a>
+        )}
+        {max && (
+          <a href={max} target="_blank" rel="noopener" aria-label="MAX" className="press-94" style={{ flex: "none", width: 48, height: 48, borderRadius: 13, background: MAX_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <MaxMark size={22} />
+          </a>
+        )}
         {/* Кнопка меню — справа (удобно для правого пальца) */}
         <button
           onClick={() => setOpen(true)}

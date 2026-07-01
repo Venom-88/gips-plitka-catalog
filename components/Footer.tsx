@@ -1,4 +1,5 @@
 import { BITTER, MaxMark, MAX_BG, VKMark, VK_BG } from "./icons";
+import { formatPhoneDisplay, telHref, vkHref, maxHref, type ContactData } from "@/lib/types";
 
 const CAT_LINKS = [
   { href: "/catalog/decor-brick", label: "Декоративный кирпич" },
@@ -11,7 +12,9 @@ const CAT_LINKS = [
 
 const PAY = ["МИР", "СБП", "VISA", "Mastercard"];
 
-export default function Footer() {
+export default function Footer({ contact }: { contact?: ContactData }) {
+  const vk = vkHref(contact?.vk);
+  const max = maxHref(contact?.max);
   return (
     <footer className="gx" style={{ background: "#1A1612", paddingTop: 28, paddingBottom: 22, color: "rgba(251,246,236,.7)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
@@ -36,17 +39,23 @@ export default function Footer() {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(251,246,236,.1)", paddingTop: 16, marginBottom: 16 }}>
-        <a href="tel:+7" style={{ display: "block", fontFamily: BITTER, fontWeight: 700, fontSize: 20, color: "#FBF6EC", marginBottom: 4 }}>
-          +7 (XXX) XXX-XX-XX
+        <a href={telHref(contact?.phone)} style={{ display: "block", fontFamily: BITTER, fontWeight: 700, fontSize: 20, color: "#FBF6EC", marginBottom: 4 }}>
+          {formatPhoneDisplay(contact?.phone) || "+7 (XXX) XXX-XX-XX"}
         </a>
-        <div style={{ fontSize: 12, color: "rgba(251,246,236,.55)", marginBottom: 12 }}>г. Губкин · ежедневно 9:00–20:00</div>
+        <div style={{ fontSize: 12, color: "rgba(251,246,236,.55)", marginBottom: 12 }}>
+          г. Губкин · {contact?.workingHours || "ежедневно 9:00–20:00"}
+        </div>
         <div style={{ display: "flex", gap: 9 }}>
-          <a href="#" aria-label="ВКонтакте" className="lift" style={{ width: 40, height: 40, borderRadius: 11, background: VK_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <VKMark size={20} />
-          </a>
-          <a href="#" aria-label="MAX" className="lift" style={{ width: 40, height: 40, borderRadius: 11, background: MAX_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <MaxMark size={20} />
-          </a>
+          {vk && (
+            <a href={vk} target="_blank" rel="noopener" aria-label="ВКонтакте" className="lift" style={{ width: 40, height: 40, borderRadius: 11, background: VK_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <VKMark size={20} />
+            </a>
+          )}
+          {max && (
+            <a href={max} target="_blank" rel="noopener" aria-label="MAX" className="lift" style={{ width: 40, height: 40, borderRadius: 11, background: MAX_BG, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <MaxMark size={20} />
+            </a>
+          )}
         </div>
       </div>
 

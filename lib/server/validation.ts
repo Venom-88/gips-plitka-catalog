@@ -128,8 +128,6 @@ export const contactInfoSchema = z.object({
   email: z.string().max(120).optional().nullable().or(z.literal("")),
   address: z.string().max(300),
   workingHours: z.string().max(120).optional(),
-  telegram: z.string().max(120).optional().nullable().or(z.literal("")),
-  whatsapp: z.string().max(120).optional().nullable().or(z.literal("")),
-  vk: z.string().max(120).optional().nullable().or(z.literal("")),
-  instagram: z.string().max(120).optional().nullable().or(z.literal("")),
+  vk: z.string().max(200).optional().nullable().or(z.literal("")),
+  max: z.string().max(200).optional().nullable().or(z.literal("")),
 });

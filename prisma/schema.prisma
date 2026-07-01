@@ -167,10 +167,11 @@ model ContactInfo {
   email        String?
   address      String
   workingHours String   @default("Ежедневно 9:00–20:00")
-  telegram     String?
-  whatsapp     String?
   vk           String?
-  instagram    String?
+  max          String? // ссылка на мессенджер MAX
+  telegram     String? // legacy, в UI не используется
+  whatsapp     String? // legacy
+  instagram    String? // legacy
   updatedAt    DateTime @updatedAt
 
   @@map("contact_info")
